@@ -23,9 +23,9 @@ class Animation(object):
         Set option for opening in browser when finished.
         """
         self.workdir = workdir
+        self.im_path = im_path
         self.browser = browser
-	self.im_path = im_path
-	print("ready for animation...")
+        print("ready for animation...")
     
 
     def create_animation(self, aniname, gif = False): 
@@ -36,18 +36,29 @@ class Animation(object):
             if gif == True:
                 aniformat = ".gif"
                 
-            args = [self.im_path, "-delay", "20", "*.png", "-quality", "100%", "-compress", "None", "-loop", "0", aniname + aniformat]
-            p = sp.Popen(args, cwd = output_dir, stdin=sp.PIPE, stdout=sp.PIPE)
+            args = [self.im_path,
+                       "-delay", "20", 
+                       "*.png", 
+                       "-quality", "100%", 
+                       "-compress", "None", 
+                       "-loop", "0",
+                       aniname + aniformat,
+                       ]
+            p = sp.Popen(args, 
+                               cwd = output_dir, 
+                               stdin=sp.PIPE, stdout=sp.PIPE)
             t = p.communicate()
             print("remove pngs...")
             args = ["rm.exe", "*.png"]
-            p = sp.Popen(args,cwd = output_dir, stdin=sp.PIPE, stdout=sp.PIPE)
+            p = sp.Popen(args,
+                               cwd = output_dir, 
+                               stdin=sp.PIPE, stdout=sp.PIPE)
             t = p.communicate()
             print(t)
         except Exception as e:
             print(e)
         if gif == True and self.browser == True:
-	    pa = os.path.join(output_dir, aniname + aniformat)
+            pa = os.path.join(output_dir, aniname + aniformat)
             wb.open("file:///" + pa)
         
 #...............................................................................
